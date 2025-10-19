@@ -284,12 +284,49 @@
     filter: brightness(1.4) saturate(4) hue-rotate(240deg) drop-shadow(0 0 10px rgba(124,58,237,0.8));
     transform: scale(1.1);
   }
-  
+  /* 💜 Purple Animated Dot Cursor */
+.cursor-dot {
+  width: 12px;
+  height: 12px;
+  background: #a855f7;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  mix-blend-mode: difference;
+  animation: pulseDot 1.4s infinite alternate;
+}
+
+.cursor-outline {
+  width: 35px;
+  height: 35px;
+  border: 2px solid #a855f7;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9998;
+  transition: all 0.15s ease-out;
+  opacity: 0.8;
+}
+
+@keyframes pulseDot {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.4); opacity: 0.7; }
+}
+
+/* Hide default cursor */
+body {
+  cursor: none !important;
+}
+
 </style>
 
 </head>
 <body>
-
+<div class="cursor-dot"></div>
+<div class="cursor-outline"></div>
 <!-- 🔍 Purple Search Bar (Visible only at top, not sticky) -->
 <div id="searchBarContainer" class="w-full bg-purple-600 py-4 px-4 flex justify-center shadow-md border-b border-purple-400">
   <div class="relative w-full max-w-lg">
@@ -345,6 +382,7 @@
   from { text-shadow: 0 0 15px rgba(168,85,247,0.5); }
   to { text-shadow: 0 0 30px rgba(168,85,247,0.9); }
 }
+
 </style>
 
 
@@ -792,6 +830,27 @@ function restoreOriginalContent() {
     card.style.display = "flex";
   });
 }
+</script>
+<script>
+  const cursorDot = document.querySelector('.cursor-dot');
+  const cursorOutline = document.querySelector('.cursor-outline');
+
+  window.addEventListener('mousemove', e => {
+    const { clientX: x, clientY: y } = e;
+    cursorDot.style.left = `${x}px`;
+    cursorDot.style.top = `${y}px`;
+    cursorOutline.style.left = `${x}px`;
+    cursorOutline.style.top = `${y}px`;
+  });
+
+  // Smooth follow for outline
+  document.addEventListener('mousemove', e => {
+    let x = e.clientX, y = e.clientY;
+    cursorOutline.animate({
+      left: `${x}px`,
+      top: `${y}px`
+    }, { duration: 400, fill: "forwards" });
+  });
 </script>
 
 </body>
