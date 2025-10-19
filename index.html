@@ -271,8 +271,9 @@
 
 </head>
 <body>
- <!-- 🔍 Fixed Purple Search Bar -->
-<div id="searchBarContainer" class="fixed top-0 left-0 w-full bg-purple-600/95 backdrop-blur-md z-50 py-4 px-4 flex justify-center shadow-lg border-b border-purple-400">
+
+<!-- 🔍 Purple Search Bar (Visible only at top, not sticky) -->
+<div id="searchBarContainer" class="w-full bg-purple-600 py-4 px-4 flex justify-center shadow-md border-b border-purple-400">
   <div class="relative w-full max-w-lg">
     <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-lg"></i>
     <input
@@ -283,6 +284,7 @@
     />
   </div>
 </div>
+
 
 <!-- Spacer so header isn’t hidden under fixed bar -->
 <div class="pt-24"></div>
@@ -779,6 +781,7 @@ function restoreOriginalContent() {
 
 </body>
 </html>
+
 
 
 
