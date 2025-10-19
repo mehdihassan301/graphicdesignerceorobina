@@ -64,6 +64,23 @@
     font-family: 'Poppins', sans-serif;
     scroll-behavior: smooth;
   }
+/* Global Reset & Responsive Fix */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 100%;
+      overflow-x: hidden; /* Prevent horizontal scroll */
+      font-family: 'Arial', sans-serif;
+      scroll-behavior: smooth;
+      background-color: #121210;
+      color: #fff;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; height: auto; display: block; }
 
   /* --- Divider --- */
   .section-divider {
@@ -779,6 +796,7 @@ function restoreOriginalContent() {
 
 </body>
 </html>
+
 
 
 
