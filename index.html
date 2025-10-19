@@ -421,7 +421,7 @@ body {
  
   <!-- Header -->
   <header class="text-center py-10" data-aos="fade-down">
-    <img src="logo.png" alt="MashAllah Graphics Logo" class="mx-auto w-48 mb-4">
+    <img src="logo.png" alt="MashAllah Graphics Logo" class="mx-auto w-32 mb-4">
     <h1 class="text-4xl font-bold text-purple-400">Robina Abbassi</h1>
     <p class="text-lg text-gray-300">CEO at MashAllah Graphics</p>
     <p class="italic text-purple-300 mt-2">Turning Your Ideas into Stunning Visuals</p>
@@ -561,24 +561,7 @@ body {
   </div>
 </div>
 
-<!-- ✅ Modal Script -->
-<script>
-  const modal = document.getElementById('imageModal');
-  const modalImage = document.getElementById('modalImage');
 
-  function openModal(imageSrc) {
-    modalImage.src = imageSrc;
-    modal.classList.remove('hidden');
-  }
-
-  function closeModal() {
-    modal.classList.add('hidden');
-  }
-
-  modal.addEventListener('click', (event) => {
-    if (event.target === modal) closeModal();
-  });
-</script>
 <!-- ✅ Premium Hover Effects -->
 <style>
 .service-card {
@@ -764,28 +747,6 @@ body {
   100% { left: 125%; }
 }
 </style>
-
-<!-- ⚙️ Scroll Animation Script -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const observerOptions = { threshold: 0.2 };
-  const fadeUps = document.querySelectorAll(".fade-up, .package-card");
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-      }
-    });
-  }, observerOptions);
-
-  fadeUps.forEach(el => observer.observe(el));
-});
-</script>
-
-
-
-
 
 
 <!-- Achievements Section with Animated Count-Up -->
@@ -1012,6 +973,7 @@ function restoreOriginalContent() {
     }, { duration: 400, fill: "forwards" });
   });
 </script>
+
 <!-- 🌀 Smooth Scroll + Mobile Toggle Script -->
 <script>
   // Smooth scrolling
@@ -1039,6 +1001,23 @@ function restoreOriginalContent() {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
+    <!-- ⚙️ Scroll Animation Script -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const observerOptions = { threshold: 0.2 };
+  const fadeUps = document.querySelectorAll(".fade-up, .package-card");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  }, observerOptions);
+
+  fadeUps.forEach(el => observer.observe(el));
+});
+</script>
 <script>
   /* ✅ Initialize AOS for all fade/zoom elements */
   AOS.init({
@@ -1105,9 +1084,27 @@ function restoreOriginalContent() {
     once: true,
   });
 </script>
+<!-- ✅ Modal Script -->
+<script>
+  const modal = document.getElementById('imageModal');
+  const modalImage = document.getElementById('modalImage');
 
+  function openModal(imageSrc) {
+    modalImage.src = imageSrc;
+    modal.classList.remove('hidden');
+  }
+
+  function closeModal() {
+    modal.classList.add('hidden');
+  }
+
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) closeModal();
+  });
+</script>
 </body>
 </html>
+
 
 
 
