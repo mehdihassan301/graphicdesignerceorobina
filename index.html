@@ -78,6 +78,99 @@
     from { opacity: 0.7; box-shadow: 0 0 10px rgba(124,58,237,0.4); }
     to { opacity: 1; box-shadow: 0 0 25px rgba(124,58,237,0.9); }
   }
+/* ✨ Smooth Fade Animations */
+.fade-out {
+  opacity: 0;
+  transform: scale(0.97);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.fade-in {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* 💜 Search Focus Mode */
+#services.search-focus {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  transition: all 0.4s ease;
+}
+
+/* 🟪 Card Layout Centering */
+#services.search-focus .grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+#services.search-focus .grid > div {
+  flex: 0 1 300px;
+  text-align: center;
+}
+
+/* 🌈 No Results */
+.no-results {
+  animation: fadeIn 0.5s ease forwards;
+  color: white;
+  text-align: center;
+  background: linear-gradient(135deg, #6b21a8 0%, #9333ea 100%);
+  padding: 2rem 1rem;
+  border-radius: 1rem;
+  font-size: 1.2rem;
+  box-shadow: 0 0 20px rgba(147, 51, 234, 0.5);
+  margin-top: 2rem;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* 💜 Floating Back to Home Button */
+#backToHomeBtn {
+  display: none;
+  position: fixed;
+  bottom: 1.8rem;
+  right: 1.8rem;
+  padding: 0.9rem 1.4rem;
+  font-size: 0.95rem;
+  color: white;
+  background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(147, 51, 234, 0.5);
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+#backToHomeBtn:hover {
+  transform: scale(1.08);
+  background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+}
+#backToHomeBtn.fade-in {
+  display: inline-block;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+/* 📱 Responsive: make circular icon-only on mobile */
+@media (max-width: 640px) {
+  #backToHomeBtn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    padding: 0;
+    font-size: 1.3rem;
+    text-align: center;
+  }
+  #backToHomeBtn span {
+    display: none;
+  }
+}
+
+
 
   /* --- Buttons --- */
   .btn {
@@ -173,10 +266,26 @@
     filter: brightness(1.4) saturate(4) hue-rotate(240deg) drop-shadow(0 0 10px rgba(124,58,237,0.8));
     transform: scale(1.1);
   }
+  
 </style>
 
 </head>
 <body>
+ <!-- 🔍 Fixed Purple Search Bar -->
+<div id="searchBarContainer" class="fixed top-0 left-0 w-full bg-purple-600/95 backdrop-blur-md z-50 py-4 px-4 flex justify-center shadow-lg border-b border-purple-400">
+  <div class="relative w-full max-w-lg">
+    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-lg"></i>
+    <input
+      id="serviceSearch"
+      type="text"
+      placeholder="Search and get the right service in seconds"
+      class="w-full pl-12 pr-4 py-3 rounded-full bg-purple-700 text-white placeholder-white/70 border border-white/40 focus:ring-2 focus:ring-white focus:outline-none transition-all duration-300"
+    />
+  </div>
+</div>
+
+<!-- Spacer so header isn’t hidden under fixed bar -->
+<div class="pt-24"></div>
 
   <!-- Header -->
   <header class="text-center py-10" data-aos="fade-down">
@@ -186,9 +295,7 @@
     <p class="italic text-purple-300 mt-2">Turning Your Ideas into Stunning Visuals</p>
     <img src="banner.jpg" alt="Banner Preview" class="mx-auto mt-6 rounded-lg shadow-lg w-full max-w-4xl opacity-90" data-aos="zoom-in">
     <a href="https://wa.me/923299260116" class="btn mt-5">Order Now</a>
-  </header>
 
-  <div class="section-divider"></div>
 
 <!-- Who Am I -->
 <section class="py-16 px-6 text-center" id="about" data-aos="fade-up">
@@ -222,108 +329,250 @@
 
 
 
-<!-- ✅ What We Offer --> 
+<!-- ✅ What We Offer -->
 <section class="py-20 bg-[#121210] text-center fade-up" id="services">
   <div class="max-w-7xl mx-auto px-4">
     <h2 class="text-3xl md:text-4xl font-bold mb-12 text-purple-400">What We Offer</h2>
     <p class="text-gray-300 mb-10 max-w-2xl mx-auto">
       Creative visuals that empower your brand identity and captivate your audience.
     </p>
+    <p class="text-gray-300 mb-10 max-w-2xl mx-auto">
+     Click any service to preview a sample.
+    </p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
-      <!-- Logo Design -->
-      <div class="bg-black/50 p-10 rounded-2xl shadow hover:scale-105 hover:shadow-purple-500/30 transition-all flex flex-col items-center">
+      <!-- 1️⃣ Logo Design -->
+      <div onclick="openModal('logo.jpg')" class="service-card bg-black/50 p-10 rounded-2xl shadow hover:scale-105 transition-all flex flex-col items-center cursor-pointer">
         <i class="fas fa-pen-nib text-4xl mb-6 icon-animated"></i>
         <h3 class="text-xl font-semibold mb-3 text-white">Logo Design</h3>
-        <p class="text-sm text-gray-300">Distinctive and timeless logos that define your brand.</p>
+        <p class="text-sm text-gray-300 mb-4">Distinctive and timeless logos that define your brand.</p>
+        <a href="https://wa.me/923299260116?text=Hello%20Robina%2C%20hope%20you%E2%80%99re%20doing%20great!%20I%E2%80%99d%20like%20to%20get%20a%20Logo%20Design%20for%20my%20upcoming%20project.%20Can%20you%20please%20share%20your%20rates%20and%20availability%3F" target="_blank" class="btn">Contact Now</a>
       </div>
 
-      <!-- Facebook Banner Design -->
-      <div class="bg-black/50 p-10 rounded-2xl shadow hover:scale-105 hover:shadow-purple-500/30 transition-all flex flex-col items-center">
+      <!-- 2️⃣ Facebook Banner Design -->
+      <div onclick="openModal('facebookbanner.jpg')" class="service-card bg-black/50 p-10 rounded-2xl shadow hover:scale-105 transition-all flex flex-col items-center cursor-pointer">
         <i class="fab fa-facebook text-4xl mb-6 icon-animated"></i>
         <h3 class="text-xl font-semibold mb-3 text-white">Facebook Banner Design</h3>
-        <p class="text-sm text-gray-300">Eye-catching covers that boost engagement and clicks.</p>
+        <p class="text-sm text-gray-300 mb-4">Eye-catching covers that boost engagement and clicks.</p>
+        <a href="https://wa.me/923299260116?text=Hello%20Robina%2C%20hope%20you%E2%80%99re%20doing%20great!%20I%E2%80%99d%20like%20to%20get%20a%20Facebook%20Banner%20Design%20for%20my%20upcoming%20project.%20Can%20you%20please%20share%20your%20rates%20and%20availability%3F" target="_blank" class="btn">Contact Now</a>
       </div>
 
-      <!-- LinkedIn Banner Design -->
-      <div class="bg-black/50 p-10 rounded-2xl shadow hover:scale-105 hover:shadow-purple-500/30 transition-all flex flex-col items-center">
+      <!-- 3️⃣ LinkedIn Banner Design -->
+      <div onclick="openModal('linkedinbanner.jpg')" class="service-card bg-black/50 p-10 rounded-2xl shadow hover:scale-105 transition-all flex flex-col items-center cursor-pointer">
         <i class="fab fa-linkedin text-4xl mb-6 icon-animated"></i>
         <h3 class="text-xl font-semibold mb-3 text-white">LinkedIn Banner Design</h3>
-        <p class="text-sm text-gray-300">Professional designs to make your profile stand out.</p>
+        <p class="text-sm text-gray-300 mb-4">Professional designs to make your profile stand out.</p>
+        <a href="https://wa.me/923299260116?text=Hello%20Robina%2C%20hope%20you%E2%80%99re%20doing%20great!%20I%E2%80%99d%20like%20to%20get%20a%20LinkedIn%20Banner%20Design%20for%20my%20upcoming%20project.%20Can%20you%20please%20share%20your%20rates%20and%20availability%3F" target="_blank" class="btn">Contact Now</a>
       </div>
 
-      <!-- Social Media Post -->
-      <div class="bg-black/50 p-10 rounded-2xl shadow hover:scale-105 hover:shadow-purple-500/30 transition-all flex flex-col items-center">
+      <!-- 4️⃣ Social Media Post -->
+      <div onclick="openModal('socialmediapost.jpg')" class="service-card bg-black/50 p-10 rounded-2xl shadow hover:scale-105 transition-all flex flex-col items-center cursor-pointer">
         <i class="fas fa-share-alt text-4xl mb-6 icon-animated"></i>
         <h3 class="text-xl font-semibold mb-3 text-white">Social Media Post</h3>
-        <p class="text-sm text-gray-300">Consistent, engaging visuals that grow your reach.</p>
+        <p class="text-sm text-gray-300 mb-4">Consistent, engaging visuals that grow your reach.</p>
+        <a href="https://wa.me/923299260116?text=Hello%20Robina%2C%20hope%20you%E2%80%99re%20doing%20great!%20I%E2%80%99d%20like%20to%20get%20a%20Social%20Media%20Post%20Design%20for%20my%20project.%20Can%20you%20please%20share%20your%20rates%20and%20availability%3F" target="_blank" class="btn">Contact Now</a>
       </div>
 
-      <!-- Ad Creatives -->
-      <div class="bg-black/50 p-10 rounded-2xl shadow hover:scale-105 hover:shadow-purple-500/30 transition-all flex flex-col items-center">
+      <!-- 5️⃣ Ad Creatives -->
+      <div onclick="openModal('adcreatives.jpg')" class="service-card bg-black/50 p-10 rounded-2xl shadow hover:scale-105 transition-all flex flex-col items-center cursor-pointer">
         <i class="fas fa-bullhorn text-4xl mb-6 icon-animated"></i>
         <h3 class="text-xl font-semibold mb-3 text-white">Ad Creatives</h3>
-        <p class="text-sm text-gray-300">Scroll-stopping ads designed to convert audiences.</p>
+        <p class="text-sm text-gray-300 mb-4">Scroll-stopping ads designed to convert audiences.</p>
+        <a href="https://wa.me/923299260116?text=Hello%20Robina%2C%20hope%20you%E2%80%99re%20doing%20great!%20I%E2%80%99d%20like%20to%20get%20Ad%20Creatives%20for%20my%20upcoming%20project.%20Can%20you%20please%20share%20your%20rates%20and%20availability%3F" target="_blank" class="btn">Contact Now</a>
       </div>
 
-      <!-- Gig Images Design -->
-      <div class="bg-black/50 p-10 rounded-2xl shadow hover:scale-105 hover:shadow-purple-500/30 transition-all flex flex-col items-center">
+      <!-- 6️⃣ Gig Images Design -->
+      <div onclick="openModal('gigimage.jpg')" class="service-card bg-black/50 p-10 rounded-2xl shadow hover:scale-105 transition-all flex flex-col items-center cursor-pointer">
         <i class="fas fa-briefcase text-4xl mb-6 icon-animated"></i>
         <h3 class="text-xl font-semibold mb-3 text-white">Gig Images Design</h3>
-        <p class="text-sm text-gray-300">Optimized visuals that boost Fiverr and freelancing profiles.</p>
+        <p class="text-sm text-gray-300 mb-4">Optimized visuals that boost Fiverr and freelancing profiles.</p>
+        <a href="https://wa.me/923299260116?text=Hello%20Robina%2C%20hope%20you%E2%80%99re%20doing%20great!%20I%E2%80%99d%20like%20to%20get%20Gig%20Images%20designed%20for%20my%20freelancing%20profile.%20Can%20you%20please%20share%20your%20rates%20and%20availability%3F" target="_blank" class="btn">Contact Now</a>
       </div>
 
-      <!-- Thumbnail Design -->
-      <div class="bg-black/50 p-10 rounded-2xl shadow hover:scale-105 hover:shadow-purple-500/30 transition-all flex flex-col items-center">
+      <!-- 7️⃣ Thumbnail Design -->
+      <div onclick="openModal('thumbnail.jpg')" class="service-card bg-black/50 p-10 rounded-2xl shadow hover:scale-105 transition-all flex flex-col items-center cursor-pointer">
         <i class="fas fa-image text-4xl mb-6 icon-animated"></i>
         <h3 class="text-xl font-semibold mb-3 text-white">Thumbnail Design</h3>
-        <p class="text-sm text-gray-300">Click-worthy thumbnails that drive video engagement.</p>
+        <p class="text-sm text-gray-300 mb-4">Click-worthy thumbnails that drive video engagement.</p>
+        <a href="https://wa.me/923299260116?text=Hello%20Robina%2C%20hope%20you%E2%80%99re%20doing%20great!%20I%E2%80%99d%20like%20to%20get%20a%20Thumbnail%20Design%20for%20my%20channel.%20Can%20you%20please%20share%20your%20rates%20and%20availability%3F" target="_blank" class="btn">Contact Now</a>
       </div>
 
-      <!-- Portfolio Design -->
-      <div class="bg-black/50 p-10 rounded-2xl shadow hover:scale-105 hover:shadow-purple-500/30 transition-all flex flex-col items-center">
+      <!-- 8️⃣ Portfolio Design -->
+      <div onclick="openModal('portfolio.jpg')" class="service-card bg-black/50 p-10 rounded-2xl shadow hover:scale-105 transition-all flex flex-col items-center cursor-pointer">
         <i class="fas fa-folder-open text-4xl mb-6 icon-animated"></i>
         <h3 class="text-xl font-semibold mb-3 text-white">Portfolio Design</h3>
-        <p class="text-sm text-gray-300">Beautiful layouts that showcase your best work effectively.</p>
+        <p class="text-sm text-gray-300 mb-4">Beautiful layouts that showcase your best work effectively.</p>
+        <a href="https://wa.me/923299260116?text=Hello%20Robina%2C%20hope%20you%E2%80%99re%20doing%20great!%20I%E2%80%99d%20like%20to%20get%20a%20Portfolio%20Design%20for%20my%20work.%20Can%20you%20please%20share%20your%20rates%20and%20availability%3F" target="_blank" class="btn">Contact Now</a>
       </div>
 
-      <!-- CV Design -->
-      <div class="bg-black/50 p-10 rounded-2xl shadow hover:scale-105 hover:shadow-purple-500/30 transition-all flex flex-col items-center">
+      <!-- 9️⃣ CV Design -->
+      <div onclick="openModal('cv.jpg')" class="service-card bg-black/50 p-10 rounded-2xl shadow hover:scale-105 transition-all flex flex-col items-center cursor-pointer">
         <i class="fas fa-file-alt text-4xl mb-6 icon-animated"></i>
         <h3 class="text-xl font-semibold mb-3 text-white">CV Design</h3>
-        <p class="text-sm text-gray-300">Standout CVs that make lasting impressions on employers.</p>
+        <p class="text-sm text-gray-300 mb-4">Standout CVs that make lasting impressions on employers.</p>
+        <a href="https://wa.me/923299260116?text=Hello%20Robina%2C%20hope%20you%E2%80%99re%20doing%20great!%20I%E2%80%99d%20like%20to%20get%20a%20CV%20Design%20for%20my%20upcoming%20job%20application.%20Can%20you%20please%20share%20your%20rates%20and%20availability%3F" target="_blank" class="btn">Contact Now</a>
       </div>
 
-      <!-- Website Banner Design -->
-      <div class="bg-black/50 p-10 rounded-2xl shadow hover:scale-105 hover:shadow-purple-500/30 transition-all flex flex-col items-center">
+      <!-- 🔟 Website Banner Design -->
+      <div onclick="openModal('websitebanner.jpg')" class="service-card bg-black/50 p-10 rounded-2xl shadow hover:scale-105 transition-all flex flex-col items-center cursor-pointer">
         <i class="fas fa-desktop text-4xl mb-6 icon-animated"></i>
         <h3 class="text-xl font-semibold mb-3 text-white">Website Banner Design</h3>
-        <p class="text-sm text-gray-300">Elegant banners that attract and convert visitors effectively.</p>
+        <p class="text-sm text-gray-300 mb-4">Elegant banners that attract and convert visitors effectively.</p>
+        <a href="https://wa.me/923299260116?text=Hello%20Robina%2C%20hope%20you%E2%80%99re%20doing%20great!%20I%E2%80%99d%20like%20to%20get%20a%20Website%20Banner%20Design%20for%20my%20site.%20Can%20you%20please%20share%20your%20rates%20and%20availability%3F" target="_blank" class="btn">Contact Now</a>
       </div>
 
-      <!-- Shopify Store Banner Design -->
-      <div class="bg-black/50 p-10 rounded-2xl shadow hover:scale-105 hover:shadow-purple-500/30 transition-all flex flex-col items-center">
+      <!-- 11️⃣ Shopify Store Banner Design -->
+      <div onclick="openModal('shopifybanner.jpg')" class="service-card bg-black/50 p-10 rounded-2xl shadow hover:scale-105 transition-all flex flex-col items-center cursor-pointer">
         <i class="fas fa-shopping-bag text-4xl mb-6 icon-animated"></i>
         <h3 class="text-xl font-semibold mb-3 text-white">Shopify Store Banner Design</h3>
-        <p class="text-sm text-gray-300">Modern and sleek designs for high-performing Shopify stores.</p>
+        <p class="text-sm text-gray-300 mb-4">Modern and sleek designs for high-performing Shopify stores.</p>
+        <a href="https://wa.me/923299260116?text=Hello%20Robina%2C%20hope%20you%E2%80%99re%20doing%20great!%20I%E2%80%99d%20like%20to%20get%20a%20Shopify%20Store%20Banner%20Design%20for%20my%20store.%20Can%20you%20please%20share%20your%20rates%20and%20availability%3F" target="_blank" class="btn">Contact Now</a>
       </div>
 
-      <!-- Company / Business Profile Design -->
-      <div class="bg-black/50 p-10 rounded-2xl shadow hover:scale-105 hover:shadow-purple-500/30 transition-all flex flex-col items-center">
+      <!-- 12️⃣ Company Profile Design -->
+      <div onclick="openModal('companyprofile.jpg')" class="service-card bg-black/50 p-10 rounded-2xl shadow hover:scale-105 transition-all flex flex-col items-center cursor-pointer">
         <i class="fas fa-building text-4xl mb-6 icon-animated"></i>
         <h3 class="text-xl font-semibold mb-3 text-white">Company / Business Profile Design</h3>
-        <p class="text-sm text-gray-300">Professional and sleek profiles that represent your brand’s strength.</p>
+        <p class="text-sm text-gray-300 mb-4">Professional and sleek profiles that represent your brand’s strength.</p>
+        <a href="https://wa.me/923299260116?text=Hello%20Robina%2C%20hope%20you%E2%80%99re%20doing%20great!%20I%E2%80%99d%20like%20to%20get%20a%20Company%20Profile%20Design%20for%20my%20business.%20Can%20you%20please%20share%20your%20rates%20and%20availability%3F" target="_blank" class="btn">Contact Now</a>
       </div>
 
     </div>
   </div>
 </section>
 
+<!-- ✅ Image Preview Modal -->
+<div id="imageModal" class="fixed inset-0 bg-black/80 flex items-center justify-center hidden z-50">
+  <div class="relative max-w-3xl w-full mx-4">
+    <img id="modalImage" src="" alt="Service Preview" class="rounded-xl shadow-2xl w-full h-auto" />
+    <button onclick="closeModal()" class="absolute top-4 right-4 bg-white/20 hover:bg-white/40 text-white rounded-full p-2 transition">
+      ✕
+    </button>
+  </div>
+</div>
+
+<!-- ✅ Modal Script -->
+<script>
+  const modal = document.getElementById('imageModal');
+  const modalImage = document.getElementById('modalImage');
+
+  function openModal(imageSrc) {
+    modalImage.src = imageSrc;
+    modal.classList.remove('hidden');
+  }
+
+  function closeModal() {
+    modal.classList.add('hidden');
+  }
+
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) closeModal();
+  });
+</script>
+
 
   <div class="section-divider"></div>
       
-  
+<!-- 💎 My Packages for Branding -->
+<section class="py-20 bg-[#121210] text-center" id="packages">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-4xl font-extrabold text-purple-400 mb-4" data-aos="fade-up">
+      My Packages for Branding
+    </h2>
+    <p class="text-gray-300 mb-12" data-aos="fade-up" data-aos-delay="100">
+      Choose the plan that best fits your creative needs — from quick essentials to full premium branding.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      <!-- 🟪 Basic Plan -->
+      <div class="bg-black/60 border border-purple-600 rounded-2xl p-8 transition-all duration-500
+                  hover:scale-105 hover:shadow-[0_0_25px_rgba(168,85,247,0.7)] hover:border-purple-400
+                  hover:brightness-110"
+           data-aos="fade-right">
+        <h3 class="text-2xl font-bold text-white mb-4">Basic</h3>
+        <ul class="text-gray-300 text-sm space-y-2 mb-6">
+          <li>✓ Free Facebook Cover</li>
+          <li>✓ Free DP Design</li>
+          <li>✓ Free 1 Friday Post</li>
+          <li>✓ 7 Social Media Posts</li>
+        </ul>
+        <p class="text-purple-400 font-bold text-2xl mb-6">3000/- PKR</p>
+        <a href="https://wa.me/923299260116?text=Hello%20Robina!%20I'm%20interested%20in%20your%20Basic%20Branding%20Package.%20Please%20share%20details."
+           target="_blank"
+           class="inline-block bg-purple-600 text-white px-6 py-2 rounded-lg font-semibold 
+                  hover:bg-purple-700 hover:shadow-[0_0_25px_rgba(168,85,247,0.9)] transition-all duration-300">
+          Get Started
+        </a>
+      </div>
+
+      <!-- 🌟 Premium Plan (Floating + Pulsing Glow) -->
+      <div class="relative bg-gradient-to-b from-purple-600 to-purple-800 text-white rounded-3xl p-10 shadow-2xl
+                  scale-105 transition-all duration-500 hover:scale-110 hover:shadow-[0_0_35px_rgba(192,132,252,0.9)]
+                  animate-pulse-glow"
+           data-aos="zoom-in">
+        <span class="absolute top-3 right-3 bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full">
+          Most Popular
+        </span>
+        <h3 class="text-3xl font-bold mb-4">Premium</h3>
+        <ul class="text-sm space-y-2 mb-6">
+          <li>✓ Free Logo</li>
+          <li>✓ Free DP Design</li>
+          <li>✓ Free Facebook Cover</li>
+          <li>✓ Free LinkedIn Banner</li>
+          <li>✓ Free 4 Ad Creatives</li>
+          <li>✓ Free 4 Friday Posts</li>
+          <li>✓ 30 Social Media Posts</li>
+        </ul>
+        <p class="text-white font-extrabold text-3xl mb-6">15000/- PKR</p>
+        <a href="https://wa.me/923299260116?text=Hello%20Robina!%20I'm%20interested%20in%20your%20Premium%20Branding%20Package.%20Please%20share%20details."
+           target="_blank"
+           class="inline-block bg-white text-purple-700 px-8 py-3 rounded-lg font-bold 
+                  hover:bg-purple-100 hover:shadow-[0_0_25px_rgba(255,255,255,0.8)] transition-all duration-300">
+          Start Now
+        </a>
+      </div>
+
+      <!-- ⚫ Standard Plan -->
+      <div class="bg-black/60 border border-purple-600 rounded-2xl p-8 transition-all duration-500
+                  hover:scale-105 hover:shadow-[0_0_25px_rgba(168,85,247,0.7)] hover:border-purple-400
+                  hover:brightness-110"
+           data-aos="fade-left">
+        <h3 class="text-2xl font-bold text-white mb-4">Standard</h3>
+        <ul class="text-gray-300 text-sm space-y-2 mb-6">
+          <li>✓ Free Logo</li>
+          <li>✓ Free Facebook Cover</li>
+          <li>✓ Free 1 Ad Creative</li>
+          <li>✓ Free 2 Friday Posts</li>
+          <li>✓ 12 Social Media Posts</li>
+        </ul>
+        <p class="text-purple-400 font-bold text-2xl mb-6">7000/- PKR</p>
+        <a href="https://wa.me/923299260116?text=Hello%20Robina!%20I'm%20interested%20in%20your%20Standard%20Branding%20Package.%20Please%20share%20details."
+           target="_blank"
+           class="inline-block bg-purple-600 text-white px-6 py-2 rounded-lg font-semibold 
+                  hover:bg-purple-700 hover:shadow-[0_0_25px_rgba(168,85,247,0.9)] transition-all duration-300">
+          Get Started
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 🌈 Custom Glow Animation -->
+<style>
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 20px rgba(192,132,252,0.4), 0 0 40px rgba(192,132,252,0.3); transform: translateY(0); }
+  50% { box-shadow: 0 0 35px rgba(192,132,252,0.7), 0 0 60px rgba(192,132,252,0.5); transform: translateY(-6px); }
+  100% { box-shadow: 0 0 20px rgba(192,132,252,0.4), 0 0 40px rgba(192,132,252,0.3); transform: translateY(0); }
+}
+.animate-pulse-glow {
+  animation: pulse-glow 3s infinite ease-in-out;
+}
+</style>
+
+
 <!-- Achievements Section with Animated Count-Up -->
 <section class="py-16 bg-[#171716] text-center border-t border-b border-gray-800" data-aos="fade-up">
   <h2 class="text-3xl font-bold text-purple-400 mb-10">Our Achievements</h2>
@@ -400,6 +649,7 @@
   <!-- Floating WhatsApp -->
   <a href="https://wa.me/923299260116" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
+
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     AOS.init({ duration: 1000, once: true });
@@ -438,9 +688,99 @@
   });
   observer.observe(document.querySelector('.count'));
 </script>
+<script>
+// 🔍 Search Function + Back to Home Button (desktop & mobile)
+const searchInput = document.getElementById("serviceSearch");
+const serviceSection = document.getElementById("services");
+const serviceCards = serviceSection.querySelectorAll(".grid > div");
+const sections = document.querySelectorAll("section, footer, .section-divider");
+const header = document.querySelector("header");
+
+// 🏠 Create Floating Back to Home Button
+const backBtn = document.createElement("button");
+backBtn.id = "backToHomeBtn";
+backBtn.innerHTML = "🏠 <span>Back to Home</span>";
+document.body.appendChild(backBtn);
+
+searchInput.addEventListener("input", function () {
+  const query = this.value.toLowerCase().trim();
+  const existingMsg = document.querySelector(".no-results");
+  if (existingMsg) existingMsg.remove();
+
+  if (query === "") {
+    restoreOriginalContent();
+  } else {
+    // Hide other sections
+    sections.forEach(sec => {
+      if (!sec.id.includes("services")) {
+        sec.classList.remove("fade-in");
+        sec.classList.add("fade-out");
+        setTimeout(() => (sec.style.display = "none"), 400);
+      }
+    });
+    header.style.display = "block";
+    serviceSection.classList.add("search-focus");
+
+    let hasMatch = false;
+    serviceCards.forEach(card => {
+      const title = card.querySelector("h3").textContent.toLowerCase();
+      const description = card.querySelector("p").textContent.toLowerCase();
+
+      if (title.includes(query) || description.includes(query)) {
+        card.classList.remove("fade-out");
+        card.classList.add("fade-in");
+        card.style.display = "flex";
+        hasMatch = true;
+      } else {
+        card.classList.remove("fade-in");
+        card.classList.add("fade-out");
+        setTimeout(() => (card.style.display = "none"), 400);
+      }
+    });
+
+    // 🟪 No Results Found Message
+    if (!hasMatch) {
+      const msg = document.createElement("div");
+      msg.className = "no-results";
+      msg.innerHTML = `<p>No matching services found 🕵️‍♀️</p>`;
+      serviceSection.appendChild(msg);
+    }
+
+    // 🏠 Show Floating Button
+    backBtn.classList.add("fade-in");
+  }
+});
+
+// 🏠 Restore Full Page
+backBtn.addEventListener("click", restoreOriginalContent);
+
+function restoreOriginalContent() {
+  backBtn.classList.remove("fade-in");
+  backBtn.style.display = "none";
+
+  const existingMsg = document.querySelector(".no-results");
+  if (existingMsg) existingMsg.remove();
+
+  searchInput.value = "";
+  sections.forEach(sec => {
+    sec.classList.remove("fade-out");
+    sec.classList.add("fade-in");
+    sec.style.display = "block";
+  });
+  serviceSection.classList.remove("search-focus");
+
+  serviceCards.forEach(card => {
+    card.classList.remove("fade-out");
+    card.classList.add("fade-in");
+    card.style.display = "flex";
+  });
+}
+</script>
 
 </body>
 </html>
+
+
 
 
 
