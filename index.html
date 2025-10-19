@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -327,6 +327,7 @@ body {
 <body>
 <div class="cursor-dot"></div>
 <div class="cursor-outline"></div>
+ 
 <!-- 🔍 Purple Search Bar (Visible only at top, not sticky) -->
 <div id="searchBarContainer" class="w-full bg-purple-600 py-4 px-4 flex justify-center shadow-md border-b border-purple-400">
   <div class="relative w-full max-w-lg">
@@ -341,9 +342,42 @@ body {
 </div>
 
 
-<!-- Spacer so header isn’t hidden under fixed bar -->
-<div class="pt-24"></div>
 
+<!-- ✅ Responsive Navbar (Under Search Bar) -->
+<header class="w-full z-40 bg-[#0e0e0e]/90 backdrop-blur-md border-y border-purple-800">
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
+    <!-- 🌟 Brand -->
+    <a href="#" class="text-xl font-bold text-purple-400 hover:text-purple-300 transition-all">
+      Robina Abbassi
+    </a>
+
+    <!-- 🌐 Desktop Menu -->
+    <nav class="hidden md:flex space-x-8 text-gray-300 font-medium">
+      <a href="#about" class="hover:text-purple-400 transition-colors">About</a>
+      <a href="#services" class="hover:text-purple-400 transition-colors">Services</a>
+      <a href="#contact" class="hover:text-purple-400 transition-colors">Contact</a>
+      <a href="#packages" class="hover:text-purple-400 transition-colors">Packages</a>
+      <a href="#achievements" class="hover:text-purple-400 transition-colors">Achievements</a>
+    </nav>
+
+    <!-- 🍔 Mobile Toggle Button -->
+    <button id="menu-btn" class="md:hidden flex flex-col space-y-1 focus:outline-none">
+      <span class="w-6 h-0.5 bg-purple-400"></span>
+      <span class="w-6 h-0.5 bg-purple-400"></span>
+      <span class="w-6 h-0.5 bg-purple-400"></span>
+    </button>
+  </div>
+
+  <!-- 📱 Mobile Dropdown -->
+  <nav id="mobile-menu" class="hidden md:hidden flex-col bg-[#0e0e0e] border-t border-purple-800 text-gray-300 px-6 py-4 space-y-3">
+    <a href="#about" class="block hover:text-purple-400 transition-colors">About</a>
+    <a href="#services" class="block hover:text-purple-400 transition-colors">Services</a>
+    <a href="#contact" class="block hover:text-purple-400 transition-colors">Contact</a>
+    <a href="#packages" class="block hover:text-purple-400 transition-colors">Packages</a>
+    <a href="#achievements" class="block hover:text-purple-400 transition-colors">Achievements</a>
+  </nav>
+</header>
+ 
   <!-- Header -->
   <header class="text-center py-10" data-aos="fade-down">
     <img src="logo.png" alt="MashAllah Graphics Logo" class="mx-auto w-32 mb-4">
@@ -629,7 +663,7 @@ body {
 
 
 <!-- Achievements Section with Animated Count-Up -->
-<section class="py-16 bg-[#171716] text-center border-t border-b border-gray-800" data-aos="fade-up">
+<section class="py-20 bg-[#121210] text-center fade-up" id="achievements">
   <h2 class="text-3xl font-bold text-purple-400 mb-10">Our Achievements</h2>
   <div class="grid md:grid-cols-3 sm:grid-cols-1 gap-8 max-w-5xl mx-auto px-6">
 
@@ -675,7 +709,7 @@ body {
 </style>
 
   <!-- CTA Section -->
-<section class="cta-section" data-aos="fade-up">
+<section class="py-20 bg-[#121210] text-center fade-up" id="contact">
   <h2 class="text-4xl font-bold text-purple-400 mb-8">Your Brand Deserves to Be Seen Beautifully</h2>
   <p class="text-gray-300 max-w-2xl mx-auto text-lg leading-relaxed">
     Ready to transform your brand visuals into something unforgettable?  
@@ -852,9 +886,31 @@ function restoreOriginalContent() {
     }, { duration: 400, fill: "forwards" });
   });
 </script>
+<!-- 🌀 Smooth Scroll + Mobile Toggle Script -->
+<script>
+  // Smooth scrolling
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+      // Close mobile menu on click
+      document.getElementById('mobile-menu').classList.add('hidden');
+    });
+  });
 
+  // Toggle mobile menu
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+</script>
 </body>
 </html>
+
 
 
 
