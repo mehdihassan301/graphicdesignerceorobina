@@ -315,15 +315,6 @@
     visibility: visible !important;
   }
 }
-#search-bar input {
-  font-family: system-ui, sans-serif; /* fast system font */
-  font-weight: 500;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-shadow: none; /* remove heavy shadows */
-}
-
 
 /* ✅ Ensure fade-up animations don’t hide section initially */
 #services.fade-up {
@@ -1022,22 +1013,6 @@ function restoreOriginalContent() {
   });
 }
 </script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const placeholder = document.getElementById("search-placeholder");
-  if (placeholder) {
-    // Replace placeholder with actual search bar after 500ms
-    setTimeout(() => {
-      placeholder.innerHTML = `
-        <div id="search-bar" class="w-full max-w-3xl mx-auto p-4">
-          <input type="text" id="search-input" placeholder="Search and get the right service in seconds" 
-                 class="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400">
-        </div>
-      `;
-    }, 500); // small delay to avoid blocking LCP
-  }
-});
-</script>
 
 <script>
   const cursorDot = document.querySelector('.cursor-dot');
@@ -1221,6 +1196,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
