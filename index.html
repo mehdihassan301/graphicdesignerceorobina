@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -84,6 +84,10 @@
 
     a { text-decoration: none; color: inherit; }
     img { max-width: 100%; height: auto; display: block; }
+.logo {
+  width: 160px;   /* Increase this number */
+  height: auto;   /* Keeps proportions */
+}
 
   /* --- Divider --- */
   .section-divider {
@@ -303,6 +307,20 @@
     70% { box-shadow: 0 0 0 15px rgba(37,211,102,0); }
     100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
   }
+/* ✅ Force What We Offer section to appear on all screens */
+@media (max-width: 768px) {
+  #services {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+}
+
+/* ✅ Ensure fade-up animations don’t hide section initially */
+#services.fade-up {
+  opacity: 1 !important;
+  transform: none !important;
+}
 
   /* --- Auto Recolor All PNG Icons to Purple --- */
   img[src*="flaticon.com"],
@@ -346,21 +364,50 @@
   0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
   100% { transform: translate(-50%, -50%) scale(1.4); opacity: 0.7; }
 }
-/* 📱 Hide custom cursor completely on mobile devices */
-@media (max-width: 768px) {
+
+/* 💻 Show custom cursor only on devices with hover capability */
+@media (hover: hover) and (pointer: fine) {
+  body {
+    cursor: none;
+  }
+}
+
+/* 📱 Hide custom cursor completely on touch devices */
+@media (hover: none) and (pointer: coarse) {
   .cursor-dot,
   .cursor-outline {
     display: none !important;
   }
   body {
-    cursor: auto !important;
+    cursor: auto; /* Use default touch behavior */
   }
 }
-/* Hide default cursor */
-body {
-  cursor: none !important;
-}
 
+/* ✅ Speed Optimization */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Image optimization */
+  img {
+    loading: lazy;
+    decoding: async;
+  }
+
+  /* Disable heavy animations on low-end phones */
+  @media (max-width: 600px) {
+    * {
+      animation-duration: 0.6s !important;
+      transition-duration: 0.3s !important;
+    }
+  }
+
+  /* Remove unnecessary shadow repaint on mobile */
+  @media (max-width: 768px) {
+    .shadow-lg, .shadow-xl, .shadow-2xl {
+      box-shadow: none !important;
+    }
+  }
 </style>
 <!-- ✅ AOS CSS -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -1101,27 +1148,36 @@ document.addEventListener("DOMContentLoaded", () => {
   modal.addEventListener('click', (event) => {
     if (event.target === modal) closeModal();
   });
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+      
+    // Fix: Ensure 'What We Offer' section is visible on mobile
+    const services = document.querySelector("#services");
+    if (services && window.innerWidth < 768) {
+      services.style.display = "block";
+      services.style.opacity = "1";
+      services.style.visibility = "visible";
+    }
+
+    // Performance: Remove hidden off-screen elements until scrolled
+    const lazySections = document.querySelectorAll(".fade-up");
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = "1";
+          entry.target.style.transform = "translateY(0)";
+          observer.unobserve(entry.target);
+        }
+      });
+    });
+
+    lazySections.forEach(section => {
+      section.style.opacity = "0";
+      section.style.transform = "translateY(30px)";
+      observer.observe(section);
+    });
+  });
 </script>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
